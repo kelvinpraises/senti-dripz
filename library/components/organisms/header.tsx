@@ -1,6 +1,6 @@
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 
-import Tabs from "@/components/molecules/tabs";
+import RouteTabs from "@/components/molecules/route-tabs";
 
 const tabs = [
   {
@@ -28,7 +28,7 @@ const Header = ({ className }: { className?: string }) => {
     >
       {/* <img src="/logo.svg" alt="" /> */}
       <p className=" text-4xl">🔭</p>
-      <Tabs tabs={tabs} />
+      <RouteTabs tabs={tabs} />
       <DynamicWidget />
     </div>
   );
