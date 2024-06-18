@@ -10,7 +10,7 @@ type Tab = {
   value: string;
 };
 
-const Tabs = ({
+const RouteTabs = ({
   tabs: propTabs,
   containerClassName,
   activeTabClassName,
@@ -75,4 +75,4 @@ const Tabs = ({
   );
 };
 
-export default Tabs;
+export default RouteTabs;
