@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 
 import { PlaceholdersAndVanishInput } from "@/components/atoms/query-input";
@@ -22,10 +23,16 @@ const QueryIntents = () => {
     console.log("submitted");
   };
   return (
-    <div className="flex flex-col justify-center  items-center gap-10">
-      <h2 className="text-xl text-center sm:text-5xl dark:text-white text-black bg-green-200">
+    <div className="flex flex-col justify-between items-center gap-10 min-h-60">
+      <h2 className="text-xl text-center sm:text-3xl text-black">
         Query them Swaps! On your terms.
       </h2>
+      <Image
+        alt="missing site"
+        src="https://illustrations.popsy.co/pink/business-success-chart.svg"
+        width={400}
+        height={400}
+      />
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}
