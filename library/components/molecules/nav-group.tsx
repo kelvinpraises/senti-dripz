@@ -2,12 +2,15 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Link from "next/link";
 
 import { cn } from "@/utils";
 
 type Nav = {
   title: string;
   value: string;
+  href: string;
+  isActive: boolean;
 };
 
 const NavGroup = ({
@@ -21,7 +24,8 @@ const NavGroup = ({
   activeNavClassName?: string;
   navClassName?: string;
 }) => {
-  const [active, setActive] = useState<Nav>(propNavs[0]);
+  const initialActiveNav = propNavs.find((nav) => nav.isActive) || propNavs[0];
+  const [active, setActive] = useState<Nav>(initialActiveNav);
   const [navs, setNavs] = useState<Nav[]>(propNavs);
 
   const moveSelectedNavToTop = (idx: number) => {
@@ -40,7 +44,7 @@ const NavGroup = ({
       )}
     >
       {propNavs.map((nav, idx) => (
-        <button
+        <Link
           key={nav.title}
           onClick={() => {
             moveSelectedNavToTop(idx);
@@ -49,6 +53,7 @@ const NavGroup = ({
           style={{
             transformStyle: "preserve-3d",
           }}
+          href={nav.href}
         >
           {active.value === nav.value && (
             <motion.div
@@ -69,7 +74,7 @@ const NavGroup = ({
           >
             {nav.title}
           </span>
-        </button>
+        </Link>
       ))}
     </div>
   );
