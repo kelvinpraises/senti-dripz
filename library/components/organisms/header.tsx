@@ -2,7 +2,7 @@ import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 
 import NavGroup from "@/components/molecules/nav-group";
 
-const tabs = [
+const navs = [
   {
     title: "Intents",
     value: "intent",
@@ -28,7 +28,7 @@ const Header = ({ className }: { className?: string }) => {
     >
       {/* <img src="/logo.svg" alt="" /> */}
       <p className=" text-4xl">🔭</p>
-      <NavGroup tabs={tabs} />
+      <NavGroup navs={navs} />
       <DynamicWidget />
     </div>
   );
