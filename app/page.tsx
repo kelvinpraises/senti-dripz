@@ -5,7 +5,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/molecules/tabs";
-import IntentsFeed from "@/components/organisms/intents-feed";
+import IntentsAccordionFeed from "@/components/organisms/intents-accordion-feed";
 import QueryIntents from "@/components/organisms/query-intents";
 
 const IntentsHome = () => {
@@ -18,7 +18,7 @@ const IntentsHome = () => {
           <TabsTrigger value="query">Query</TabsTrigger>
         </TabsList>
         <TabsContent className="rounded-2xl bg-[#F8F8F7] p-4" value="feed">
-          <IntentsFeed />
+          <IntentsAccordionFeed />
         </TabsContent>
         <TabsContent className="rounded-2xl bg-[#F8F8F7] p-4" value="query">
           <QueryIntents />
