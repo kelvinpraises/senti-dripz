@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/atoms/accordion";
 import { IntentHead, IntentBody } from "../molecules/intent";
+import { Button } from "../atoms/button";
 
 const swapIntents = [
   {
@@ -126,6 +127,13 @@ const swapIntents = [
 const IntentsAccordionFeed = () => {
   return (
     <Accordion type="single" collapsible className="w-full">
+      <Button
+      // handleClick={function (): void {
+      //   throw new Error("Function not implemented.");
+      // }}
+      >
+        New Intent
+      </Button>
       {swapIntents.map((item) => (
         <AccordionItem key={item.id} value={item.id} className="border-b-2">
           <AccordionTrigger>
