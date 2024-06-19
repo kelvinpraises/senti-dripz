@@ -1,27 +1,42 @@
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 
 import NavGroup from "@/components/molecules/nav-group";
-
-const navs = [
-  {
-    title: "Intents",
-    value: "intent",
-  },
-  {
-    title: "My Swaps",
-    value: "swaps",
-  },
-  {
-    title: "Markets",
-    value: "markets",
-  },
-  {
-    title: "Docs",
-    value: "docs",
-  },
-];
+import { useSelectedLayoutSegments } from "next/navigation";
+import { useMemo } from "react";
 
 const Header = ({ className }: { className?: string }) => {
+  const segments = useSelectedLayoutSegments();
+
+  const navs = useMemo(
+    () => [
+      {
+        title: "Intents",
+        value: "intent",
+        href: "/",
+        isActive: segments.length === 0,
+      },
+      {
+        title: "My Swaps",
+        value: "swaps",
+        href: "/swaps",
+        isActive: segments.includes("swaps"),
+      },
+      {
+        title: "Markets",
+        value: "markets",
+        href: "/markets",
+        isActive: segments.includes("markets"),
+      },
+      {
+        title: "Docs",
+        value: "docs",
+        href: "/documentation",
+        isActive: segments.includes("documentation"),
+      },
+    ],
+    [segments]
+  );
+
   return (
     <div
       className={` flex justify-between items-center px-4 min-h-[70px] bg-transparent pr-8 ${className}`}
