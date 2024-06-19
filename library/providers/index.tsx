@@ -10,15 +10,13 @@ const queryClient = new QueryClient();
 
 const RootProvider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full">
-      <DynamicContextProvider>
-        <WagmiProvider>
-          <QueryClientProvider client={queryClient}>
-            <DynamicWagmiConnector>{children}</DynamicWagmiConnector>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </DynamicContextProvider>
-    </div>
+    <DynamicContextProvider>
+      <WagmiProvider>
+        <QueryClientProvider client={queryClient}>
+          <DynamicWagmiConnector>{children}</DynamicWagmiConnector>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </DynamicContextProvider>
   );
 };
 
