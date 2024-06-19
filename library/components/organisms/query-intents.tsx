@@ -28,7 +28,7 @@ const QueryIntents = () => {
         Query them Swaps! On your terms.
       </h2>
       <Image
-        alt="missing site"
+        alt="query intents"
         src="https://illustrations.popsy.co/pink/business-success-chart.svg"
         width={400}
         height={400}
