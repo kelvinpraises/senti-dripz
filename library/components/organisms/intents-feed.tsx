@@ -124,7 +124,7 @@ const swapIntents = [
   },
 ];
 
-const IntentsAccordionFeed = () => {
+const IntentsFeed = () => {
   return (
     <Accordion type="single" collapsible className="w-full">
       <Button
@@ -148,4 +148,4 @@ const IntentsAccordionFeed = () => {
   );
 };
 
-export default IntentsAccordionFeed;
+export default IntentsFeed;
