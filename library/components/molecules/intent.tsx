@@ -1,4 +1,5 @@
 import { Separator } from "@/components/atoms/separator";
+import { Button } from "@/components/atoms/button";
 
 type SwapIntent = {
   id: string;
@@ -148,9 +149,9 @@ const IntentBody = ({ item }: { item: SwapIntent }) => {
             className=" bg-slate-200 hidden sm:block"
             orientation="vertical"
           />
-          <button className="bg-blue-500 text-white px-4 py-2 rounded w-full h-fit">
+          <Button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
             Confirm Swap
-          </button>
+          </Button>
         </div>
       </div>
       <Separator className=" bg-slate-200" />
