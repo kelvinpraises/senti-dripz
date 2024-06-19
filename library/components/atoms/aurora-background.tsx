@@ -23,7 +23,7 @@ const AuroraBackground = ({
       )}
       {...props}
     >
-      <div className="fixed bg-zinc-50 inset-0 overflow-hidden">
+      <div className="fixed bg-zinc-50 inset-0 overflow-hidden -z-10">
         <div
           //   I'm sorry but this is what peak developer performance looks like // trigger warning
           className={cn(
