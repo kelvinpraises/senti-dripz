@@ -4,77 +4,136 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/atoms/accordion";
+import { IntentHead, IntentBody } from "../molecules/intent";
 
-const cryptoAccordionItems = [
+const swapIntents = [
   {
-    value: "item-1",
-    trigger: "What is Bitcoin?",
-    content:
-      "Bitcoin is a decentralized digital currency that enables peer-to-peer transactions without the need for intermediaries like banks.",
+    id: "swap-intent-1",
+    creator: "0x1234567890",
+    status: "Open",
+    created_at: 1687334400,
+    updated_at: 1687334400,
+    from: {
+      address: "0x1111111111",
+      ticker: "usdc",
+      amount: 5000,
+    },
+    to: {
+      address: "0x1111111111",
+      ticker: "aero",
+      amount: 3000,
+    },
+    rate: 0.6,
+    deadline: 1687593600,
+    min_swap_amount: 1000,
+    filled_amount: 0,
+    gated: {
+      // account: {
+      //   address: "0x0987654321",
+      // },
+      // in_collection: {
+      //   address: "0x1111111111",
+      // },
+      // min_balance: {
+      //   address: "0x2222222222",
+      //   amount: 1000,
+      // },
+      // token_id: {
+      //   address: "0x3333333333",
+      //   ids: [1, 2, 3],
+      // },
+    },
+    // notes: "This is a sample swap intent",
   },
   {
-    value: "item-2",
-    trigger: "How does blockchain work?",
-    content:
-      "Blockchain is a distributed ledger technology that records transactions across a network of computers, ensuring transparency, security, and immutability.",
+    id: "swap-intent-2",
+    creator: "0x1234567890",
+    status: "Open",
+    created_at: 1687334400,
+    updated_at: 1687334400,
+    from: {
+      address: "0x1111111111",
+      ticker: "wblt",
+      amount: 5000,
+    },
+    to: {
+      address: "0x1111111111",
+      ticker: "usdc",
+      amount: 3000,
+    },
+    rate: 0.6,
+    deadline: 1687593600,
+    min_swap_amount: 1000,
+    filled_amount: 0,
+    gated: {
+      account: {
+        address: "0x0987654321",
+      },
+      in_collection: {
+        address: "0x1111111111",
+      },
+      min_balance: {
+        address: "0x2222222222",
+        amount: 1000,
+      },
+      token_id: {
+        address: "0x3333333333",
+        ids: [1, 2, 3],
+      },
+    },
+    notes: "This is a sample swap intent",
   },
   {
-    value: "item-3",
-    trigger: "What is Ethereum?",
-    content:
-      "Ethereum is a decentralized platform that enables developers to build and deploy smart contracts and decentralized applications (dApps).",
-  },
-  {
-    value: "item-4",
-    trigger: "What are smart contracts?",
-    content:
-      "Smart contracts are self-executing contracts with the terms of the agreement directly written into code. They automatically enforce the terms without the need for intermediaries.",
-  },
-  {
-    value: "item-5",
-    trigger: "What is cryptocurrency mining?",
-    content:
-      "Cryptocurrency mining is the process of verifying and adding new transactions to the blockchain. Miners solve complex mathematical problems to validate transactions and are rewarded with cryptocurrency.",
-  },
-  {
-    value: "item-6",
-    trigger: "What is a cryptocurrency wallet?",
-    content:
-      "A cryptocurrency wallet is a software program or physical device that stores the private and public keys required to send and receive cryptocurrency transactions.",
-  },
-  {
-    value: "item-7",
-    trigger: "What is an Initial Coin Offering (ICO)?",
-    content:
-      "An Initial Coin Offering (ICO) is a fundraising method used by blockchain startups to raise capital by selling their own cryptocurrency tokens to investors.",
-  },
-  {
-    value: "item-8",
-    trigger: "What is a stablecoin?",
-    content:
-      "A stablecoin is a type of cryptocurrency that is designed to maintain a stable value, typically pegged to a fiat currency like the US dollar or a commodity like gold.",
-  },
-  {
-    value: "item-9",
-    trigger: "What is a decentralized exchange (DEX)?",
-    content:
-      "A decentralized exchange (DEX) is a cryptocurrency exchange that operates on a blockchain network, allowing users to trade cryptocurrencies directly with each other without the need for a central authority.",
-  },
-  {
-    value: "item-10",
-    trigger: "What is DeFi?",
-    content:
-      "DeFi (Decentralized Finance) refers to a ecosystem of financial applications built on blockchain technology, offering services such as lending, borrowing, trading, and insurance without the need for traditional financial intermediaries.",
+    id: "swap-intent-3",
+    creator: "0x1234567890",
+    status: "Open",
+    created_at: 1687334400,
+    updated_at: 1687334400,
+    from: {
+      address: "0x1111111111",
+      ticker: "aero",
+      amount: 5000,
+    },
+    to: {
+      address: "0x1111111111",
+      ticker: "wblt",
+      amount: 3000,
+    },
+    rate: 0.6,
+    deadline: 1687593600,
+    min_swap_amount: 1000,
+    filled_amount: 0,
+    gated: {
+      account: {
+        address: "0x0987654321",
+      },
+      in_collection: {
+        address: "0x1111111111",
+      },
+      min_balance: {
+        address: "0x2222222222",
+        amount: 1000,
+      },
+      token_id: {
+        address: "0x3333333333",
+        ids: [1, 2, 3],
+      },
+    },
+    notes: "This is a sample swap intent",
   },
 ];
 
 const IntentsAccordionFeed = () => {
   return (
     <Accordion type="single" collapsible className="w-full">
-      {cryptoAccordionItems.map((item) => (
-        <AccordionItem key={item.value} value={item.value}>
-          <AccordionTrigger>{item.trigger}</AccordionTrigger>
-          <AccordionContent>{item.content}</AccordionContent>
+      {swapIntents.map((item) => (
+        <AccordionItem key={item.id} value={item.id} className="border-b-2">
+          <AccordionTrigger>
+            <IntentHead item={item} />
+          </AccordionTrigger>
+          <AccordionContent>
+            <IntentBody item={item} />
+          </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>
