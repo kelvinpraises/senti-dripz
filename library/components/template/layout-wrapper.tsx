@@ -14,7 +14,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={cn(inter.className)}>
-        <main className="flex w-screen h-screen">
+        <main className="flex w-screen">
           <RootProvider>
             <AuroraBackground className="flex flex-col gap-2 w-full">
               <SwapsMarquee />
