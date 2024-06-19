@@ -10,7 +10,7 @@ type Tab = {
   value: string;
 };
 
-const RouteTabs = ({
+const NavGroup = ({
   tabs: propTabs,
   containerClassName,
   activeTabClassName,
@@ -75,4 +75,4 @@ const RouteTabs = ({
   );
 };
 
-export default RouteTabs;
+export default NavGroup;
