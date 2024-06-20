@@ -4,8 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/atoms/accordion";
-import { IntentHead, IntentBody } from "../molecules/intent";
-import { Button } from "../atoms/button";
+import { IntentBody, IntentHead } from "@/components/molecules/intent";
+import NewIntent from "@/components/molecules/new-intent";
 
 const swapIntents = [
   {
@@ -24,7 +24,7 @@ const swapIntents = [
       ticker: "aero",
       amount: 3000,
     },
-    rate: 0.6,
+    rate: 1.67,
     deadline: 1687593600,
     min_swap_amount: 1000,
     filled_amount: 0,
@@ -127,13 +127,7 @@ const swapIntents = [
 const IntentsFeed = () => {
   return (
     <Accordion type="single" collapsible className="w-full">
-      <Button
-      // handleClick={function (): void {
-      //   throw new Error("Function not implemented.");
-      // }}
-      >
-        New Intent
-      </Button>
+      <NewIntent />
       {swapIntents.map((item) => (
         <AccordionItem key={item.id} value={item.id} className="border-b-2">
           <AccordionTrigger>
