@@ -52,7 +52,7 @@ struct Instance {
 }
 
 #[starknet::contract]
-mod SwapERC20 {
+mod LensSwapERC20 {
     use super::{ContractAddress, Instance, IERC20, IERC721, ISwapERC20, GatingCriteria};
     use starknet::get_caller_address;
     use super::IERC20DispatcherTrait;
