@@ -27,11 +27,11 @@ trait ISwapERC20<TContractState> {
         token_id: Option<(ContractAddress, u256)>
     ) -> u32;
     fn cancel(ref self: TContractState, id: u32);
-    fn complete(ref self: TContractState, id: u32, optional_token_id: Option<u256>);
+    fn complete(ref self: TContractState, id: u32);
     fn find_instance(self: @TContractState, id: u32) -> Instance;
 }
 
-#[derive(Drop, Serde, starknet::Store, Clone)]
+#[derive(Drop, Serde, starknet::Store, Copy)]
 struct GatingCriteria {
     gated_account: ContractAddress,
     in_collection: Option<ContractAddress>,
@@ -39,7 +39,7 @@ struct GatingCriteria {
     token_id: Option<(ContractAddress, u256)>,
 }
 
-#[derive(Drop, Serde, starknet::Store, Clone)]
+#[derive(Drop, Serde, starknet::Store, Copy)]
 struct Instance {
     id: u32,
     initiator: ContractAddress,
@@ -104,22 +104,6 @@ mod SwapERC20 {
 
     #[abi(embed_v0)]
     impl SwapERC20Impl of ISwapERC20<ContractState> {
-        /// Initiates a new swap instance
-        /// 
-        /// # Arguments
-        /// 
-        /// * `initiator_erc20` - The address of the ERC20 token the initiator is offering
-        /// * `initiator_amount` - The amount of tokens the initiator is offering
-        /// * `counter_party_erc20` - The address of the ERC20 token the initiator wants in return
-        /// * `counter_party_amount` - The amount of tokens the initiator wants in return
-        /// * `gated_account` - The address allowed to complete the swap (zero address if not gated)
-        /// * `in_collection` - Optional address of an NFT collection for gating
-        /// * `min_balance` - Optional tuple of (token address, minimum balance) for balance gating
-        /// * `token_id` - Optional tuple of (NFT address, token ID) for specific NFT gating
-        /// 
-        /// # Returns
-        /// 
-        /// * `u32` - The ID of the newly created swap instance
         fn begin(
             ref self: ContractState,
             initiator_erc20: ContractAddress,
@@ -164,11 +148,6 @@ mod SwapERC20 {
             new_id
         }
 
-        /// Cancels an existing swap instance
-        /// 
-        /// # Arguments
-        /// 
-        /// * `id` - The ID of the swap instance to cancel
         fn cancel(ref self: ContractState, id: u32) {
             let mut instance = self.instances.read(id);
             let caller = get_caller_address();
@@ -176,7 +155,7 @@ mod SwapERC20 {
             assert(instance.state == BEGUN, 'Invalid state');
 
             instance.state = CANCELLED;
-            self.instances.write(id, instance.clone());
+            self.instances.write(id, instance);
 
             let erc20 = IERC20Dispatcher { contract_address: instance.initiator_erc20 };
             erc20.transfer(instance.initiator, instance.initiator_amount);
@@ -184,13 +163,7 @@ mod SwapERC20 {
             self.emit(Event::Cancelled(Cancelled { id: id }));
         }
 
-        /// Completes an existing swap instance
-        /// 
-        /// # Arguments
-        /// 
-        /// * `id` - The ID of the swap instance to complete
-        /// * `optional_token_id` - Optional token ID for NFT gating optimization
-        fn complete(ref self: ContractState, id: u32, optional_token_id: Option<u256>) {
+        fn complete(ref self: ContractState, id: u32) {
             let mut instance = self.instances.read(id);
             let caller = get_caller_address();
             assert(instance.state == BEGUN, 'Invalid state');
@@ -216,16 +189,12 @@ mod SwapERC20 {
 
             // Check token ID ownership
             if let Option::Some((collection_address, required_token_id)) = instance.gating.token_id {
-                let token_id = match optional_token_id {
-                    Option::Some(id) => id,
-                    Option::None => required_token_id
-                };
                 let erc721 = IERC721Dispatcher { contract_address: collection_address };
-                assert(erc721.owner_of(token_id) == caller, 'Does not own required token');
+                assert(erc721.owner_of(required_token_id) == caller, 'Does not own required token');
             }
 
             instance.state = FINISHED;
-            self.instances.write(id, instance.clone());
+            self.instances.write(id, instance);
 
             let counter_party_erc20 = IERC20Dispatcher { contract_address: instance.counter_party_erc20 };
             counter_party_erc20.transfer_from(caller, instance.initiator, instance.counter_party_amount);
@@ -236,15 +205,6 @@ mod SwapERC20 {
             self.emit(Event::Finished(Finished { id: id }));
         }
 
-        /// Retrieves an existing swap instance
-        /// 
-        /// # Arguments
-        /// 
-        /// * `id` - The ID of the swap instance to retrieve
-        /// 
-        /// # Returns
-        /// 
-        /// * `Instance` - The requested swap instance
         fn find_instance(self: @ContractState, id: u32) -> Instance {
             self.instances.read(id)
         }
