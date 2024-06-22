@@ -28,20 +28,20 @@ const IntentsHome = () => {
       },
       rate: 1.67,
       gated: {
-        // account: {
-        //   address: "0x0987654321",
-        // },
-        // in_collection: {
-        //   address: "0x1111111111",
-        // },
-        // min_balance: {
-        //   address: "0x2222222222",
-        //   amount: 1000,
-        // },
-        // token_id: {
-        //   address: "0x3333333333",
-        //   ids: 5,
-        // },
+        account: {
+          address: "0x0987654321",
+        },
+        in_collection: {
+          address: "0x1111111111",
+        },
+        min_balance: {
+          address: "0x2222222222",
+          amount: 1000,
+        },
+        token_id: {
+          address: "0x3333333333",
+          id: 5,
+        },
       },
       // notes: "This is a sample swap intent",
     },
@@ -75,7 +75,7 @@ const IntentsHome = () => {
         },
         token_id: {
           address: "0x3333333333",
-          ids: 6,
+          id: 6,
         },
       },
       notes: "This is a sample swap intent",
@@ -110,7 +110,7 @@ const IntentsHome = () => {
         },
         token_id: {
           address: "0x3333333333",
-          ids: 3,
+          id: 3,
         },
       },
       notes: "This is a sample swap intent",

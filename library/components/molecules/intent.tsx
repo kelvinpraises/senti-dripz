@@ -31,7 +31,7 @@ export type SwapIntent = {
     };
     token_id?: {
       address: string;
-      ids: number;
+      id: number;
     };
   };
   notes?: string;
@@ -91,7 +91,7 @@ const IntentBody = ({ item }: { item: SwapIntent }) => {
       case "token_id":
         return `You need to own one of the following token IDs from ${
           data.address
-        }: ${(data as { ids: number[] }).ids.join(", ")}`;
+        }: ${(data as unknown as { id: number }).id}`;
       default:
         return null;
     }

@@ -20,20 +20,20 @@ const attachments = [
     },
     rate: 1.67,
     gated: {
-      // account: {
-      //   address: "0x0987654321",
-      // },
-      // in_collection: {
-      //   address: "0x1111111111",
-      // },
-      // min_balance: {
-      //   address: "0x2222222222",
-      //   amount: 1000,
-      // },
-      // token_id: {
-      //   address: "0x3333333333",
-      //   ids: 9,
-      // },
+      account: {
+        address: "0x0987654321",
+      },
+      in_collection: {
+        address: "0x1111111111",
+      },
+      min_balance: {
+        address: "0x2222222222",
+        amount: 1000,
+      },
+      token_id: {
+        address: "0x3333333333",
+        id: 9,
+      },
     },
     // notes: "This is a sample swap intent",
   },
@@ -67,7 +67,7 @@ const attachments = [
       },
       token_id: {
         address: "0x3333333333",
-        ids: 9,
+        id: 9,
       },
     },
     notes: "This is a sample swap intent",
@@ -102,7 +102,7 @@ const attachments = [
       },
       token_id: {
         address: "0x3333333333",
-        ids: 0,
+        id: 0,
       },
     },
     notes: "This is a sample swap intent",
