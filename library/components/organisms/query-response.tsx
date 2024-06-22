@@ -1,5 +1,7 @@
-import React from 'react';
-import IntentsFeed, { SwapIntent } from './intents-feed';
+import React from "react";
+
+import IntentsFeed from "@/components/organisms/intents-feed";
+import { SwapIntent } from "@/components/molecules/intent";
 
 type QueryResponseProps = {
   text: string;
