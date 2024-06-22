@@ -28,7 +28,7 @@ const QueryIntents = () => {
   ];
 
   // This function simulates an AI response. In a real app, this would be an API call.
-  const getAIResponse = (input: string):Interaction["aiResponse"] => {
+  const getAIResponse = (input: string): Interaction["aiResponse"] => {
     return {
       text: `AI response to: "${input}"`,
       attachments: [
