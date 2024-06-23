@@ -1,10 +1,10 @@
 "use client";
 
-import {
-  createWalletClientFromWallet,
-  useDynamicContext,
-} from "@dynamic-labs/sdk-react-core";
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { StarknetWalletConnectorType } from "@dynamic-labs/starknet";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
+import { Call, uint256 } from "starknet";
 
 import { Button } from "@/components/atoms/button";
 import {
@@ -38,46 +38,19 @@ type Token = {
 };
 
 const tokens: Token[] = [
-  { symbol: "ETH", name: "Ethereum", address: "0x..." },
-  { symbol: "USDC", name: "USD Coin", address: "0x..." },
-  { symbol: "DAI", name: "Dai Stablecoin", address: "0x..." },
+  {
+    symbol: "SLTT1",
+    name: "Starklens TToken 1",
+    address:
+      "0x05528e1787f89bd1c9ed07dd25df7a0a6abe406fb1228ce44a185256b7162049",
+  },
+  {
+    symbol: "SLTT2",
+    name: "Starklens TToken 2",
+    address:
+      "0x041766ce8357f8e21c3bec97f3d1490095613df4ee6b39385b43ee37a2d0fd60",
+  },
 ];
-
-export type SwapIntent = {
-  id: string;
-  creator: string;
-  status: string;
-  created_at: number;
-  updated_at: number;
-  from: {
-    address: string;
-    ticker: string;
-    amount: number;
-  };
-  to: {
-    address: string;
-    ticker: string;
-    amount: number;
-  };
-  rate: number;
-  gated: {
-    account?: {
-      address: string;
-    };
-    in_collection?: {
-      address: string;
-    };
-    min_balance?: {
-      address: string;
-      amount: number;
-    };
-    token_id?: {
-      address: string;
-      id: number;
-    };
-  };
-  notes?: string;
-};
 
 const NewSwapIntent = () => {
   const [fromToken, setFromToken] = useState<Token | null>(null);
@@ -90,6 +63,7 @@ const NewSwapIntent = () => {
   const [gatedType, setGatedType] = useState<string>("none");
   const [gatedAmount, setGatedAmount] = useState<string>("");
   const [gatedTokenId, setGatedTokenId] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const { primaryWallet } = useDynamicContext();
 
@@ -102,65 +76,110 @@ const NewSwapIntent = () => {
     }
   }, [fromAmount, toAmount]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    const newIntent: SwapIntent = {
-      id: Date.now().toString(), // Generate a unique ID
-      creator: "user_address", // Replace with actual user address
-      status: "active",
-      created_at: Date.now(),
-      updated_at: Date.now(),
-      from: {
-        address: fromToken?.address || "",
-        ticker: fromToken?.symbol || "",
-        amount: parseFloat(fromAmount),
-      },
-      to: {
-        address: toToken?.address || "",
-        ticker: toToken?.symbol || "",
-        amount: parseFloat(toAmount),
-      },
-      rate,
-      gated: {
-        ...(gatedType === "account" && { account: { address: gatedAddress } }),
-        ...(gatedType === "in_collection" && {
-          in_collection: { address: gatedAddress },
-        }),
-        ...(gatedType === "min_balance" && {
-          min_balance: {
-            address: gatedAddress,
-            amount: parseFloat(gatedAmount),
-          },
-        }),
-        ...(gatedType === "token_id" && {
-          token_id: {
-            address: gatedAddress,
-            id: parseInt(gatedTokenId),
-          },
-        }),
-      },
-      notes,
-    };
-
-    console.log(newIntent);
-    // Here you would typically send this data to your backend or blockchain
-  };
-
-  const signMessage = async () => {
     if (!primaryWallet) {
-      alert("nothing");
+      toast.error("Please connect your wallet first.");
+      setIsSubmitting(false);
       return;
     }
 
-    const walletClient = await createWalletClientFromWallet(primaryWallet);
+    const connector = primaryWallet?.connector as StarknetWalletConnectorType;
 
-    // No account is required by viem here, because the account is already setup.
-    const signedMessage = await walletClient.signMessage({
-      message: "example message",
-    });
+    if (!connector) {
+      toast.error("Wallet connector not found.");
+      setIsSubmitting(false);
+      return;
+    }
 
-    console.log({ signedMessage });
+    if (!fromToken || !toToken || !fromAmount || !toAmount) {
+      toast.error("Please fill in all required fields.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      await connector.connect();
+      const signer = await connector.getSigner();
+
+      if (!signer) {
+        throw new Error("Failed to get signer");
+      }
+
+      const contractAddress =
+        process.env.NEXT_PUBLIC_STARKLENS_SWAPERC20_CONTRACT;
+      if (!contractAddress) {
+        throw new Error("Contract address not found in environment variables");
+      }
+
+      const fromAmountBN = uint256.bnToUint256(fromAmount);
+      console.log(fromAmountBN);
+      const toAmountBN = uint256.bnToUint256(toAmount);
+
+      const calls: Call[] = [
+        {
+          contractAddress: contractAddress as string,
+          entrypoint: "begin",
+          calldata: [
+            fromToken.address,
+            fromAmountBN.low,
+            fromAmountBN.high,
+            toToken.address,
+            toAmountBN.low,
+            toAmountBN.high,
+            gatedAddress || "0x0",
+            gatedType === "in_collection" ? gatedAddress : "0x1",
+            gatedType === "min_balance" ? gatedAmount : "0x1",
+            gatedType === "token_id" ? gatedTokenId : "0x1",
+          ],
+        },
+      ];
+
+      // const calls: Call[] = [{
+      //   contractAddress: contractAddress as string,
+      //   entrypoint: "begin",
+      //   calldata: [
+      //     fromToken.address,
+      //     uint256.bnToUint256(fromAmount).low,
+      //     uint256.bnToUint256(fromAmount).high,
+      //     toToken.address,
+      //     uint256.bnToUint256(toAmount).low,
+      //     uint256.bnToUint256(toAmount).high,
+      //     gatedAddress || "0x0",
+      //     gatedType === "in_collection" ? gatedAddress : "0x1",
+      //     gatedType === "min_balance" ? gatedAddress : "0x1",
+      //     gatedType === "min_balance" ? uint256.bnToUint256(gatedAmount || "0").low : "0x1",
+      //     gatedType === "min_balance" ? uint256.bnToUint256(gatedAmount || "0").high : "0x1",
+      //     gatedType === "token_id" ? gatedAddress : "0x1",
+      //     gatedType === "token_id" ? gatedTokenId || "0x1" : "0x1"
+      //   ],
+
+      const transaction = await signer.execute(calls);
+      console.log("Transaction hash:", transaction.transaction_hash);
+
+      toast.success("Transaction sent. Waiting for confirmation...");
+
+      await signer.waitForTransaction(transaction.transaction_hash);
+      toast.success("Swap intent created successfully!");
+    } catch (error) {
+      console.error("Error creating swap intent:", error);
+      if (
+        error instanceof Error &&
+        error.message.includes("Input too long for arguments")
+      ) {
+        toast.error("Input values are too large. Please try smaller amounts.");
+      } else {
+        toast.error(
+          `Failed to create swap intent: ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`
+        );
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -173,7 +192,6 @@ const NewSwapIntent = () => {
           >
             New Swap Intent
           </Button>
-          <button onClick={() => signMessage()}>Sign message</button>
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white">
@@ -270,8 +288,9 @@ const NewSwapIntent = () => {
           <Button
             type="submit"
             className="w-full bg-zinc-800 text-white hover:bg-zinc-700"
+            disabled={isSubmitting}
           >
-            Create Swap Intent
+            {isSubmitting ? "Creating Swap Intent..." : "Create Swap Intent"}
           </Button>
         </form>
       </DialogContent>
