@@ -136,7 +136,10 @@ const IntentBody = ({ item }: { item: SwapIntent }) => {
             className=" bg-slate-200 hidden sm:block"
             orientation="vertical"
           />
-          <Button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+          <Button
+            variant="outline"
+            className="bg-zinc-800 text-white hover:bg-zinc-700 w-full"
+          >
             Confirm Swap
           </Button>
         </div>
