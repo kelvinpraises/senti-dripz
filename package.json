@@ -16,7 +16,7 @@
     "@dynamic-labs/ethereum": "^2.2.0",
     "@dynamic-labs/iconic": "^2.2.1",
     "@dynamic-labs/sdk-react-core": "^2.2.0",
-    "@dynamic-labs/starknet": "2.2.0",
+    "@dynamic-labs/starknet": "2.2.4",
     "@dynamic-labs/wagmi-connector": "^2.2.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.0",
