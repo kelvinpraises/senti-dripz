@@ -104,7 +104,7 @@ const DocumentationHome = () => {
             <DocSection title="3.6 Implementation Details">
               <ul className="list-disc pl-6">
                 <li>
-                  Uses Cairo's latest syntax and Starknet-specific attributes
+                  Uses Cairo&apos;s latest syntax and Starknet-specific attributes
                 </li>
                 <li>Implements proper error handling and access control</li>
                 <li>
@@ -133,7 +133,7 @@ const DocumentationHome = () => {
             <DocSection title="4.1 Best Practices">
               <ul className="list-disc pl-6">
                 <li>
-                  Proper use of Cairo's trait system for defining interfaces
+                  Proper use of Cairo&apos;s trait system for defining interfaces
                 </li>
                 <li>
                   Correct implementation of external contract calls using
