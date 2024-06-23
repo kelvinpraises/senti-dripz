@@ -1,7 +1,7 @@
-import { Separator } from "@/components/atoms/separator";
 import { Button } from "@/components/atoms/button";
+import { Separator } from "@/components/atoms/separator";
 
-type SwapIntent = {
+export type SwapIntent = {
   id: string;
   creator: string;
   status: string;
@@ -18,9 +18,6 @@ type SwapIntent = {
     amount: number;
   };
   rate: number;
-  deadline: number;
-  min_swap_amount: number;
-  filled_amount: number;
   gated: {
     account?: {
       address: string;
@@ -34,7 +31,7 @@ type SwapIntent = {
     };
     token_id?: {
       address: string;
-      ids: number[];
+      id: number;
     };
   };
   notes?: string;
@@ -76,16 +73,7 @@ const IntentHead = ({ item }: { item: SwapIntent }) => {
 };
 
 const IntentBody = ({ item }: { item: SwapIntent }) => {
-  const {
-    from,
-    to,
-    rate,
-    filled_amount,
-    min_swap_amount,
-    creator,
-    gated,
-    notes,
-  } = item;
+  const { from, to, rate, creator, gated, notes } = item;
 
   const renderGatingMessage = (
     type: keyof SwapIntent["gated"],
@@ -103,7 +91,7 @@ const IntentBody = ({ item }: { item: SwapIntent }) => {
       case "token_id":
         return `You need to own one of the following token IDs from ${
           data.address
-        }: ${(data as { ids: number[] }).ids.join(", ")}`;
+        }: ${(data as unknown as { id: number }).id}`;
       default:
         return null;
     }
@@ -112,21 +100,10 @@ const IntentBody = ({ item }: { item: SwapIntent }) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col sm:flex-row gap-2">
-        <div className="flex flex-col gap-4 text-gray-700 text-base font-semibold w-full">
+        <div className="flex flex-col gap-2 text-gray-700 text-base font-semibold w-full">
           <div>
             <div className="flex items-center gap-2">
-              <p className="w-[13ch] whitespace-nowrap">You'll get their</p>
-              <input
-                type="number"
-                value={to.amount}
-                readOnly
-                className="border border-gray-300 rounded px-2 py-1 w-full sm:w-40"
-              />
-              <p className="w-[5ch]">{to.ticker.toUpperCase()}</p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <p className="w-[13ch] whitespace-nowrap">They get your</p>
+              <p className="w-[11ch] whitespace-nowrap">You'll get their</p>
               <input
                 type="number"
                 value={from.amount}
@@ -135,14 +112,24 @@ const IntentBody = ({ item }: { item: SwapIntent }) => {
               />
               <p className="w-[5ch]">{from.ticker.toUpperCase()}</p>
             </div>
+
+            <div className="flex items-center gap-2">
+              <p className="w-[11ch] whitespace-nowrap">They get your</p>
+              <input
+                type="number"
+                value={to.amount}
+                readOnly
+                className="border border-gray-300 rounded px-2 py-1 w-full sm:w-40"
+              />
+              <p className="w-[5ch]">{to.ticker.toUpperCase()}</p>
+            </div>
           </div>
 
-          <div className=" text-gray-500 font-bold text-xs">
-            <p>
-              Minimum Swap Amount: {min_swap_amount} {to.ticker.toUpperCase()}
-            </p>
-            <p>Swap Rate: {rate}</p>
-          </div>
+          <p className=" text-gray-500 font-bold text-xs">
+            {from.amount} {from.ticker.toUpperCase()} for {to.amount}{" "}
+            {to.ticker.toUpperCase()} @ {rate} {from.ticker.toUpperCase()}/
+            {to.ticker.toUpperCase()}
+          </p>
         </div>
         <div className="flex w-full gap-2 items-center">
           <Separator

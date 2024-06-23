@@ -1,5 +1,7 @@
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { EthereumIcon, StarknetIcon } from "@dynamic-labs/iconic";
+import { WalletConnectorsMethod } from "@dynamic-labs/wallet-connector-core";
+
 import {
   FilterChain,
   DynamicContextProvider as _DynamicContextProvider,
@@ -44,7 +46,10 @@ export const DynamicContextProvider = ({
     <_DynamicContextProvider
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_PUBLISHABLE_KEY || "",
-        walletConnectors: [EthereumWalletConnectors, StarknetWalletConnectors],
+        walletConnectors: [
+          EthereumWalletConnectors,
+          StarknetWalletConnectors as WalletConnectorsMethod,
+        ],
         overrides: {
           views: views,
         },
