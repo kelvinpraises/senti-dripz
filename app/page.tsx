@@ -125,7 +125,7 @@ const IntentsHome = () => {
           <TabsTrigger value="feed">Feed</TabsTrigger>
         </TabsList>
         <TabsContent className="rounded-2xl bg-[#F8F8F7] p-4" value="query">
-          <QueryIntents />
+          <QueryIntents swapIntents={attachments} />
         </TabsContent>
         <TabsContent className="rounded-2xl bg-[#F8F8F7] p-4" value="feed">
           <IntentsFeed swapIntents={attachments} />
