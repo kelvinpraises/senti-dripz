@@ -1,7 +1,5 @@
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { EthereumIcon, StarknetIcon } from "@dynamic-labs/iconic";
-import { WalletConnectorsMethod } from "@dynamic-labs/wallet-connector-core";
-
 import {
   FilterChain,
   DynamicContextProvider as _DynamicContextProvider,
@@ -23,7 +21,7 @@ const StarkWallets = {
   walletsFilter: FilterChain("STARK"),
   recommendedWallets: [
     {
-      walletKey: "braavos",
+      walletKey: "argentx",
     },
   ],
 };
@@ -48,7 +46,7 @@ export const DynamicContextProvider = ({
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_PUBLISHABLE_KEY || "",
         walletConnectors: [
           EthereumWalletConnectors,
-          StarknetWalletConnectors as WalletConnectorsMethod,
+          StarknetWalletConnectors,
         ],
         overrides: {
           views: views,
