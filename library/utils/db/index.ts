@@ -30,8 +30,8 @@ export async function getSwapIntents({
       id: intent.id,
       creator: intent.creator,
       status: intent.status,
-      created_at: intent.created_at,
-      updated_at: intent.updated_at,
+      created_at: parseFloat(intent.created_at),
+      updated_at: parseFloat(intent.updated_at),
       from: {
         address: intent.from_address,
         ticker: intent.from_ticker,
@@ -42,7 +42,7 @@ export async function getSwapIntents({
         ticker: intent.to_ticker,
         amount: parseFloat(intent.to_amount),
       },
-      rate: intent.rate,
+      rate: parseFloat(intent.rate),
       gated: {
         account: intent.gated_account
           ? { address: intent.gated_account }
@@ -61,11 +61,11 @@ export async function getSwapIntents({
           intent.gated_token_id_address && intent.gated_token_id
             ? {
                 address: intent.gated_token_id_address,
-                id: parseInt(intent.gated_token_id, 10),
+                id: parseFloat(intent.gated_token_id),
               }
             : undefined,
       },
-      notes: intent.notes,
+      notes: intent.notes ?? undefined,
     }));
   } catch (error) {
     console.error("Error fetching swap intents:", error);
