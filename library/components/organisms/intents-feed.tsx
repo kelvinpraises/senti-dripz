@@ -14,9 +14,11 @@ import NewIntent from "@/components/molecules/new-intent";
 const IntentsFeed = ({
   swapIntents,
   showNewIntent = true,
+  isUserSwap,
 }: {
   swapIntents: SwapIntent[];
   showNewIntent?: boolean;
+  isUserSwap: boolean;
 }) => {
   return (
     <Accordion type="single" collapsible className="w-full">
@@ -27,7 +29,7 @@ const IntentsFeed = ({
             <IntentHead item={item} />
           </AccordionTrigger>
           <AccordionContent>
-            <IntentBody item={item} />
+            <IntentBody item={item} isUserSwap={isUserSwap} />
           </AccordionContent>
         </AccordionItem>
       ))}
