@@ -173,7 +173,7 @@ const NewSwapIntent = () => {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogContent className="sm:max-w-[425px] bg-white sm:rounded-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle>Create New Swap Intent</DialogTitle>
         </DialogHeader>
@@ -278,6 +278,3 @@ const NewSwapIntent = () => {
 };
 
 export default NewSwapIntent;
-
-
-
