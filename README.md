@@ -29,3 +29,8 @@ We created a [Node.js package](#) that allows projects to query swap intents on 
 ![query](public/from-snap.png)
 
 ![response](public/to-snap.png)
+
+
+## Localhost Indexer
+
+![alt text](public/indexer.png)
