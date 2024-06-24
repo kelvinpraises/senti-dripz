@@ -2,19 +2,11 @@
 
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { StarknetWalletConnectorType } from "@dynamic-labs/starknet";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { Call, uint256 } from "starknet";
 
 import { Button } from "@/components/atoms/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/atoms/command";
 import {
   Dialog,
   DialogContent,
@@ -24,14 +16,9 @@ import {
 } from "@/components/atoms/dialog";
 import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/atoms/popover";
-import { Coins } from "lucide-react";
+import TokenSelect from "@/components/molecules/token-select";
 
-type Token = {
+export type Token = {
   symbol: string;
   name: string;
   address: string;
@@ -57,7 +44,6 @@ const NewSwapIntent = () => {
   const [toToken, setToToken] = useState<Token | null>(null);
   const [fromAmount, setFromAmount] = useState<string>("");
   const [toAmount, setToAmount] = useState<string>("");
-  const [rate, setRate] = useState<number>(0);
   const [notes, setNotes] = useState<string>("");
   const [gatedAddress, setGatedAddress] = useState<string>("");
   const [gatedType, setGatedType] = useState<string>("none");
@@ -67,14 +53,7 @@ const NewSwapIntent = () => {
 
   const { primaryWallet } = useDynamicContext();
 
-  useEffect(() => {
-    if (fromAmount && toAmount && fromAmount !== "0" && toAmount !== "0") {
-      const calculatedRate = parseFloat(toAmount) / parseFloat(fromAmount);
-      setRate(calculatedRate);
-    } else {
-      setRate(0);
-    }
-  }, [fromAmount, toAmount]);
+  const rate = parseFloat(toAmount || "0") / parseFloat(fromAmount || "0") || 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -194,7 +173,7 @@ const NewSwapIntent = () => {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogContent className="sm:max-w-[425px] bg-white sm:rounded-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle>Create New Swap Intent</DialogTitle>
         </DialogHeader>
@@ -297,68 +276,5 @@ const NewSwapIntent = () => {
     </Dialog>
   );
 };
-
-interface TokenSelectProps {
-  tokens: Token[];
-  selectedToken: Token | null;
-  onSelectToken: (token: Token) => void;
-}
-
-const TokenSelect = React.memo(
-  ({ tokens = [], selectedToken, onSelectToken }: TokenSelectProps) => {
-    const [open, setOpen] = useState(false);
-
-    const handleSelectToken = useCallback(
-      (token: Token) => {
-        onSelectToken(token);
-        setOpen(false);
-      },
-      [onSelectToken]
-    );
-
-    const memoizedTokens = useMemo(() => tokens || [], [tokens]);
-
-    return (
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-[150px] justify-between bg-zinc-800 text-white hover:bg-zinc-700"
-          >
-            {selectedToken ? (
-              <>
-                <Coins className="mr-2 h-4 w-4" />
-                {selectedToken.symbol}
-              </>
-            ) : (
-              <>Select token</>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0 bg-white">
-          <Command>
-            <CommandInput placeholder="Search token..." />
-            <CommandEmpty>No token found.</CommandEmpty>
-            <CommandGroup>
-              <CommandList>
-                {memoizedTokens.map((token) => (
-                  <CommandItem
-                    key={token.symbol}
-                    onSelect={() => handleSelectToken(token)}
-                  >
-                    <Coins className="mr-2 h-4 w-4" />
-                    {token.symbol}
-                  </CommandItem>
-                ))}
-              </CommandList>
-            </CommandGroup>
-          </Command>
-        </PopoverContent>
-      </Popover>
-    );
-  }
-);
 
 export default NewSwapIntent;
