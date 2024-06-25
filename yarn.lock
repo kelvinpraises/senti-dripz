@@ -6962,10 +6962,10 @@ split2@^4.0.0, split2@^4.1.0:
   resolved "https://registry.yarnpkg.com/split2/-/split2-4.2.0.tgz#c9c5920904d148bab0b9f67145f245a86aadbfa4"
   integrity sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==
 
-starklens-ai@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/starklens-ai/-/starklens-ai-0.0.1.tgz#47b8c65f4ce0b61d89c50dd0f25ef33dc907605a"
-  integrity sha512-tJMmqPk25Rhh7EWvBYfbmlufqnF2JlFQdxHWypdrkdyf/6Xf16E05p/lDao6+7t1kbnSE/2bRZ/zmPDFb++HSg==
+starklens-ai@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/starklens-ai/-/starklens-ai-0.0.2.tgz#51689bace3cc953442fd210c4dab3948beb9ae3c"
+  integrity sha512-bqckQGeg8Ngar70f8Atcdn9NZQvzG2xAkKmoEymVnm8/SGn2CkakuOg/FvsfwPNg2fcQ8uCGePkDiT/eAvgbJg==
   dependencies:
     "@langchain/community" "^0.0.35"
     "@langchain/core" "^0.1.43"
