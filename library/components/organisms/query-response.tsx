@@ -14,7 +14,7 @@ const QueryResponse: React.FC<QueryResponseProps> = ({ text, attachments }) => {
       <p className="mb-4">{text}</p>
       {attachments.length > 0 && (
         <div>
-          <IntentsFeed swapIntents={attachments} showNewIntent={false} />
+          <IntentsFeed swapIntents={attachments} showNewIntent={false} isUserSwap={false} />
         </div>
       )}
     </div>
