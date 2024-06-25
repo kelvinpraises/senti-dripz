@@ -1,6 +1,8 @@
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { getInstanceDetails, getERC20Details } from "@/utils/contract";
+
 import { db } from "@/db";
+import { getERC20Details, getInstanceDetails } from "@/utils/contract";
 
 interface Event {
   eventId: string;
@@ -187,5 +189,7 @@ export async function POST(request: NextRequest) {
       { error: "Internal Server Error" },
       { status: 500 }
     );
+  } finally {
+    revalidateTag("intents");
   }
 }
