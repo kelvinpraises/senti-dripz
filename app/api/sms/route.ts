@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import querystring from "querystring";
 import { fetchQueryResponse } from "starklens-ai";
 import twilio from "twilio";
-import { m_attachments } from "@/utils/db/mock";
+
+import { getSwapIntents } from "@/utils/db";
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = twilio(accountSid, authToken);
+const client = twilio(accountSid || "AC", authToken || "");
 
 const retryLimit = 3; // limit for retries
 
@@ -33,6 +34,7 @@ async function sendSmsResponse(to: string, body: string, attempt = 1) {
 }
 
 export async function POST(request: NextRequest) {
+  const intents = await getSwapIntents();
   try {
     const reqText = await request.text();
     const req = querystring.parse(reqText);
@@ -47,7 +49,7 @@ export async function POST(request: NextRequest) {
       const result = await fetchQueryResponse(
         smsBody,
         process.env.OPENAI_API_KEY as string,
-        m_attachments
+        intents
       );
 
       console.log(
