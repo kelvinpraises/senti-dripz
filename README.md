@@ -16,7 +16,7 @@ Own your swaps with **StarkLens**. An intent-based, intelligent widget to seamle
 
 | Network          | Contract Address                                                                                                                                                      |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Starknet Sepolia | [0x036a2db9afc1380505ae547877f77ece7e2f15d6dc9883f7d9f9b25002d01961](https://sepolia.starkscan.co/0x036a2db9afc1380505ae547877f77ece7e2f15d6dc9883f7d9f9b25002d01961) |
+| Starknet Sepolia | [0x036a2db9afc1380505ae547877f77ece7e2f15d6dc9883f7d9f9b25002d01961](https://sepolia.voyager.online/contract/0x036a2db9afc1380505ae547877f77ece7e2f15d6dc9883f7d9f9b25002d01961#events) |
 
 ### StarkLens AI
 
