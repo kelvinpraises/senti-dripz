@@ -6,6 +6,22 @@ import {
   uint256,
 } from "starknet";
 
+interface Instance {
+  id: number;
+  initiator: string;
+  initiator_erc20: string;
+  initiator_amount: string;
+  counter_party_erc20: string;
+  counter_party_amount: string;
+  state: number;
+  gating: {
+    gated_account: string;
+    in_collection: string | null;
+    min_balance: [string, string] | null;
+    token_id: [string, string] | null;
+  };
+}
+
 const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
 
 function bigIntToHex(value: bigint | undefined): string {
@@ -26,19 +42,14 @@ function processCairoOption(option: { Some: any; None: boolean }): any {
   return bigIntToHex(option.Some);
 }
 
-// Updated generic function to fetch contract data
+export const starkZeroAddr = 0x0000000000000000000000000000000000000000000000000000000000000000;
+
 export async function fetchContractData<T>(
   contractAddress: string,
   functionName: string,
   args: any[],
   processor: (rawData: any) => T
 ): Promise<T> {
-  const provider = new RpcProvider({
-    nodeUrl:
-      process.env.STARKNET_RPC_URL ||
-      "https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_7/vEVKURyIJBdxxahH6eQJOSpjtIe3kA6-",
-  });
-
   const { abi } = await provider.getClassAt(contractAddress);
   if (abi === undefined) {
     throw new Error("No ABI found for the given contract address.");
@@ -54,23 +65,6 @@ export async function fetchContractData<T>(
   const calldata = CallData.compile(args);
   const rawData = await contract.call(functionName, calldata);
   return processor(rawData);
-}
-
-// Example usage for getInstanceDetails
-interface Instance {
-  id: number;
-  initiator: string;
-  initiator_erc20: string;
-  initiator_amount: string;
-  counter_party_erc20: string;
-  counter_party_amount: string;
-  state: number;
-  gating: {
-    gated_account: string;
-    in_collection: string | null;
-    min_balance: [string, string] | null;
-    token_id: [string, string] | null;
-  };
 }
 
 export async function getInstanceDetails(
@@ -103,6 +97,9 @@ export async function getInstanceDetails(
 
 export async function getERC20Details(tokenAddress: string) {
   const { abi } = await provider.getClassAt(tokenAddress);
+  if (abi === undefined) {
+    throw new Error("No ABI found for the given contract address.");
+  }
 
   const contract = new Contract(abi, tokenAddress, provider);
 
