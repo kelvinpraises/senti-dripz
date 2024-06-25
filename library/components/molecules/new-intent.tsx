@@ -94,7 +94,6 @@ const NewSwapIntent = () => {
       }
 
       const fromAmountBN = uint256.bnToUint256(fromAmount);
-      console.log(fromAmountBN);
       const toAmountBN = uint256.bnToUint256(toAmount);
 
       const calls: Call[] = [
