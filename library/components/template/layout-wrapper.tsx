@@ -18,7 +18,6 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
         <main className="flex w-screen">
           <RootProvider>
             <AuroraBackground className="flex flex-col gap-2 w-full">
-              <SwapsMarquee />
               <Header />
               {children}
             </AuroraBackground>

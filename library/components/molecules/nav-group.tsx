@@ -15,12 +15,12 @@ type Nav = {
 
 const NavGroup = ({
   navs: propNavs,
-  containerClassName,
+  className,
   activeNavClassName,
   navClassName,
 }: {
   navs: Nav[];
-  containerClassName?: string;
+  className?: string;
   activeNavClassName?: string;
   navClassName?: string;
 }) => {
@@ -40,7 +40,7 @@ const NavGroup = ({
     <div
       className={cn(
         "flex flex-row items-center justify-start [perspective:1000px] relative overflow-auto sm:overflow-visible no-visible-scrollbar max-w-full",
-        containerClassName
+        className,
       )}
     >
       {propNavs.map((nav, idx) => (
@@ -61,15 +61,15 @@ const NavGroup = ({
               transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
               className={cn(
                 "absolute inset-0 bg-gray-200 dark:bg-zinc-800 rounded-full ",
-                activeNavClassName
+                activeNavClassName,
               )}
             />
           )}
 
           <span
             className={cn(
-              "relative block text-black",
-              active.value === nav.value && "text-white"
+              "relative block text-black text-nowrap",
+              active.value === nav.value && "text-white",
             )}
           >
             {nav.title}

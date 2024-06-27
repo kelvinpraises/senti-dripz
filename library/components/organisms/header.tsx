@@ -1,8 +1,9 @@
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
-
-import NavGroup from "@/components/molecules/nav-group";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { useMemo } from "react";
+
+import NavGroup from "@/components/molecules/nav-group";
+import { cn } from "@/utils";
 
 const Header = ({ className }: { className?: string }) => {
   const segments = useSelectedLayoutSegments();
@@ -10,22 +11,28 @@ const Header = ({ className }: { className?: string }) => {
   const navs = useMemo(
     () => [
       {
-        title: "Intents",
-        value: "intent",
+        title: "Home",
+        value: "home",
         href: "/",
         isActive: segments.length === 0,
       },
       {
-        title: "My Swaps",
-        value: "swaps",
-        href: "/swaps",
-        isActive: segments.includes("swaps"),
+        title: "Collectives",
+        value: "collectives",
+        href: "/collectives",
+        isActive: segments.includes("collectives"),
       },
       {
-        title: "Markets",
-        value: "markets",
-        href: "/markets",
-        isActive: segments.includes("markets"),
+        title: "My Recipients",
+        value: "recipients",
+        href: "/recipients",
+        isActive: segments.includes("recipients"),
+      },
+      {
+        title: "Collectors",
+        value: "collectors",
+        href: "/collectors",
+        isActive: segments.includes("collectors"),
       },
       {
         title: "Docs",
@@ -34,17 +41,22 @@ const Header = ({ className }: { className?: string }) => {
         isActive: segments.includes("documentation"),
       },
     ],
-    [segments]
+    [segments],
   );
 
   return (
     <div
-      className={` flex justify-between items-center px-4 min-h-[70px] bg-transparent pr-8 ${className}`}
+      className={cn(
+        "flex justify-between items-center px-8 py-4 min-h-[70px] bg-transparent",
+        className,
+      )}
     >
       {/* <img src="/logo.svg" alt="" /> */}
-      <p className=" text-4xl">🔭</p>
-      <NavGroup navs={navs} />
-      <DynamicWidget />
+      <p className="text-4xl w-full">🔭</p>
+      <NavGroup className="flex w-full justify-center" navs={navs} />
+      <div className="flex justify-end w-full">
+        <DynamicWidget />
+      </div>
     </div>
   );
 };
