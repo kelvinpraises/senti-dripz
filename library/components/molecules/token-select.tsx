@@ -15,7 +15,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/atoms/popover";
-import { Token } from "@/components/molecules/new-intent";
+
+export type Token = {
+  symbol: string;
+  name: string;
+  address: string;
+};
 
 interface TokenSelectProps {
   tokens: Token[];
@@ -79,5 +84,7 @@ const TokenSelect = React.memo(
     );
   }
 );
+
+TokenSelect.displayName = "TokenSelect";
 
 export default TokenSelect;
