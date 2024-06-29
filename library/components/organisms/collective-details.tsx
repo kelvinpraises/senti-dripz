@@ -46,7 +46,9 @@ const Faucet = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="font-semibold text-lg text-gray-600">Collective Faucet</p>
+      <p className="font-semibold w-fit text-lg text-gray-800">
+        Collective Faucet
+      </p>
 
       <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
         <Input
