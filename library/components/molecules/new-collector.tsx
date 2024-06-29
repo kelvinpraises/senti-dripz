@@ -22,9 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/atoms/select";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Separator } from "@radix-ui/react-separator";
 import { Checkbox } from "../atoms/checkbox";
+import { ScrollArea, ScrollBar } from "../atoms/scroll-area";
 import TokenSelect, { Token } from "./token-select";
 
 type TimeUnit = "minutes" | "hours" | "days" | "weeks";
@@ -144,16 +144,12 @@ const NewCollector = () => {
 
   return (
     <Dialog>
-      <div className="flex justify-end">
-        <DialogTrigger asChild>
-          <Button
-            variant="outline"
-            className="bg-zinc-800 text-white hover:bg-zinc-700 rounded-lg py-3 px-4"
-          >
-            New Collector
-          </Button>
-        </DialogTrigger>
-      </div>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="rounded-lg py-3 px-4">
+          New Collector
+        </Button>
+      </DialogTrigger>
+
       <DialogContent className="sm:max-w-[425px] bg-white sm:rounded-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle>Create New Collective Fund</DialogTitle>
@@ -252,7 +248,7 @@ const NewCollector = () => {
                 (optional collectors to gate recipients funds to)
               </h6>
             </span>
-            <ScrollArea className="h-32 rounded-md border overflow-scroll">
+            <ScrollArea className="h-32 rounded-md border">
               <div className="p-4">
                 {tags.map((tag) => (
                   <React.Fragment key={tag}>
@@ -270,6 +266,7 @@ const NewCollector = () => {
                   </React.Fragment>
                 ))}
               </div>
+              <ScrollBar orientation="vertical" />
             </ScrollArea>
           </div>
 
