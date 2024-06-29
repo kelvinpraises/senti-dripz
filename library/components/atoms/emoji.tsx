@@ -1,3 +1,5 @@
+import { cn } from "@/utils";
+
 interface IEmoji {
   className?: string;
   emoji: string;
@@ -12,8 +14,8 @@ const Emoji = ({ className, emoji }: IEmoji) => {
     .join("");
 
   return (
-    <p className={"aspect-square grid place-items-center" + className}>
-      {unicode}
+    <p className={cn("aspect-square grid place-items-center", className)}>
+      <span className="inline-block">{unicode}</span>
     </p>
   );
 };
