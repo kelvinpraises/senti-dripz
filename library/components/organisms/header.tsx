@@ -23,7 +23,7 @@ const Header = ({ className }: { className?: string }) => {
         isActive: segments.includes("collectives"),
       },
       {
-        title: "My Recipients",
+        title: "Recipients",
         value: "recipients",
         href: "/recipients",
         isActive: segments.includes("recipients"),
