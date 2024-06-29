@@ -1,101 +1,195 @@
 "use client";
 
-import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
-import { useState } from "react";
+import { Minus, Plus, ShoppingBag } from "lucide-react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 
-export type Collector = {
-  id: string;
-  name: string;
-  creator: string;
-  status: string;
-  created_at: number;
-  updated_at: number;
-  rate: number;
-};
+import { Button } from "@/components/atoms/button";
+import Card from "@/components/atoms/card";
+import { Collector, Recipient } from "@/types";
+import Emoji from "@/components/atoms/emoji";
 
-const CollectorHead = ({ item }: { item: Collector }) => {
-  const { status, name } = item;
+interface CollectorHeadProps {
+  collector: Collector;
+}
+
+const CollectorHead: React.FC<CollectorHeadProps> = ({ collector }) => {
+  const { name, creator, acceptedToken, emojiCodePoint } = collector;
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex gap-4 items-center">
-        <div className="relative w-fit">
-          <img src={`/tokens/usdc.svg`} className="w-8 h-8" />
+    <div className="flex justify-between items-center w-full">
+      <div className="flex items-center gap-4">
+        <Emoji
+          emoji={emojiCodePoint}
+          className="inline-block text-4xl !no-underline"
+        />
+        <div className="flex flex-col items-start">
+          <h3 className="text-lg w-fit font-semibold text-gray-800">{name}</h3>
+          <div className="flex gap-4">
+            <span className="text-sm text-gray-600">
+              Shop token: {acceptedToken.symbol}
+            </span>
+            <p className="hidden sm:block text-sm text-gray-600">
+              Creator: {creator.slice(0, 6)}...{creator.slice(-4)}
+            </p>
+          </div>
         </div>
-        <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
-      </div>
-      <div className="flex gap-2 bg-slate-200 p-1 rounded-lg text-gray-700">
-        <p className="text-sm w-fit">{status}</p>
-        <p className="text-sm w-fit">@ 3,000,000,000</p>
-        <p className="text-sm w-fit">@ {item.rate.toFixed(4)}</p>
       </div>
     </div>
   );
 };
 
-const CollectorBody = ({ item }: { item: Collector }) => {
-  const { rate, creator, id } = item;
+interface CollectorBodyProps {
+  collector: Collector;
+  selectedRecipient: Recipient | null;
+}
+
+const CollectorBody: React.FC<CollectorBodyProps> = ({
+  collector,
+  selectedRecipient,
+}) => {
+  const [cart, setCart] = useState<Record<string, number>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [canComplete, setCanComplete] = useState(true);
-  const [warning, setWarning] = useState("");
-  const [info, setInfo] = useState("Happy");
+  const [error, setError] = useState<string | null>(null);
 
-  const { primaryWallet } = useDynamicContext();
+  const addToCart = (itemId: string) => {
+    setCart((prevCart) => ({
+      ...prevCart,
+      [itemId]: (prevCart[itemId] || 0) + 1,
+    }));
+  };
 
-  const handleButtonClick = async () => {
+  const removeFromCart = (itemId: string) => {
+    setCart((prevCart) => {
+      const newCart = { ...prevCart };
+      if (newCart[itemId] > 1) {
+        newCart[itemId]--;
+      } else {
+        delete newCart[itemId];
+      }
+      return newCart;
+    });
+  };
+
+  const getTotalItems = () => {
+    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+  };
+
+  const getTotalPrice = () => {
+    return collector.shopItems.reduce(
+      (sum, item) => sum + (cart[item.id] || 0) * item.price,
+      0,
+    );
+  };
+
+  const handleCheckout = async () => {
     setIsSubmitting(true);
+    setError(null);
 
-    if (!primaryWallet) {
-      toast.error("Please connect your wallet first.");
-      setIsSubmitting(false);
-      return;
-    }
-
-    const connector = primaryWallet?.connector;
-
-    if (!connector) {
-      toast.error("Wallet connector not found.");
+    if (!selectedRecipient) {
+      setError(
+        "No recipient selected. Please connect a recipient before checking out.",
+      );
       setIsSubmitting(false);
       return;
     }
 
     try {
-      await connector.connect();
-      const signer = await connector.getSigner();
+      // Faux API call to check if the recipient's flows can handle the transaction
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      if (!signer) {
-        throw new Error("Failed to get signer");
+      const canFlow = Math.random() < 0.8; // 80% chance of success for demo purposes
+
+      if (!canFlow) {
+        throw new Error(
+          "Recipient's funding flows cannot complete this transaction.",
+        );
       }
 
-      const contractAddress =
-        process.env.NEXT_PUBLIC_STARKLENS_SWAPERC20_CONTRACT;
-      if (!contractAddress) {
-        throw new Error("Contract address not found in environment variables");
-      }
+      // Faux API call to process the order
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      toast.success("Transaction sent. Waiting for confirmation...");
-
-      toast.success("Swap completed successfully!");
+      toast.success("Order placed successfully!");
+      setCart({});
     } catch (error) {
-      console.error("Error interacting with swap:", error);
-      toast.error(
-        `Failed to ${"complete"} swap: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`,
+      console.error("Error processing order:", error);
+      setError(
+        error instanceof Error ? error.message : "An unknown error occurred",
       );
+      toast.error("Failed to process order. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const totalItems = getTotalItems().toString() + " " + "items";
+
   return (
     <div className="flex flex-col gap-4">
-      {/* nft cards */}
-      <div>NFT 1</div>
-      <div>NFT 2</div>
-      <div>NFT 3</div>
-      <div>NFT 4</div>
+      <div className="flex justify-end items-center">
+        <div className="flex items-center gap-0">
+          <ShoppingBag />
+          <span className="w-[7.5ch] text-right">{totalItems}</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {collector.shopItems.map((shopItem) => (
+          <Card
+            key={shopItem.id}
+            className="p-4 flex flex-row justify-between items-center"
+          >
+            <div className="flex items-center gap-4">
+              <Emoji emoji={shopItem.emojiCodePoint} className="text-3xl" />
+              <div>
+                <p className="font-semibold">{shopItem.name}</p>
+                <p className="text-sm text-gray-600">
+                  ${shopItem.price.toFixed(2)}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => removeFromCart(shopItem.id)}
+                disabled={!cart[shopItem.id]}
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="w-8 text-center">{cart[shopItem.id] || 0}</span>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => addToCart(shopItem.id)}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      {error && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
+      <div className="flex justify-between items-center mt-4">
+        <p className="font-semibold">Total: ${getTotalPrice().toFixed(2)}</p>
+        <Button
+          onClick={handleCheckout}
+          disabled={isSubmitting || getTotalItems() === 0}
+          className="bg-blue-500 text-white rounded-lg py-3 px-4 hover:bg-blue-600"
+        >
+          Checkout
+        </Button>
+      </div>
     </div>
   );
 };
