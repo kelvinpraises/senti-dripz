@@ -4,7 +4,6 @@ import {
   FilterChain,
   DynamicContextProvider as _DynamicContextProvider,
 } from "@dynamic-labs/sdk-react-core";
-import { StarknetWalletConnectors } from "@dynamic-labs/starknet";
 
 const EthWallets = {
   label: { icon: <EthereumIcon /> },
@@ -44,10 +43,7 @@ export const DynamicContextProvider = ({
     <_DynamicContextProvider
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_PUBLISHABLE_KEY || "",
-        walletConnectors: [
-          EthereumWalletConnectors,
-          StarknetWalletConnectors,
-        ],
+        walletConnectors: [EthereumWalletConnectors],
         overrides: {
           views: views,
         },
