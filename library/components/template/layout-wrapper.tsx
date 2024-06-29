@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 
 import AuroraBackground from "@/components/atoms/aurora-background";
 import { Toaster } from "@/components/atoms/sonner";
-import SwapsMarquee from "@/components/molecules/swaps-marquee";
 import Header from "@/components/organisms/header";
 import RootProvider from "@/providers";
 import { cn } from "@/utils";
