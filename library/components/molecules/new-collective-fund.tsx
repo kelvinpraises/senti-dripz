@@ -261,9 +261,9 @@ const NewCollectiveFund = () => {
 
           <div className="flex flex-col gap-2">
             <span>
-              <h4 className="text-sm font-medium leading-none">Merchants</h4>
+              <h4 className="text-sm font-medium leading-none">Collectors</h4>
               <h6 className="text-xs">
-                (optional collectors to gate recipients funds to)
+                (optional registered collectors to gate recipients funds to)
               </h6>
             </span>
             <ScrollArea className="h-32 rounded-md border">

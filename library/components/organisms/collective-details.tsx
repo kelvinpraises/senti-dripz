@@ -3,7 +3,7 @@ import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/input";
 import { toast } from "sonner";
 
-const Faucet = () => {
+const CollectiveDetails = () => {
   const [address, setAddress] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -70,4 +70,4 @@ const Faucet = () => {
   );
 };
 
-export default Faucet;
+export default CollectiveDetails;

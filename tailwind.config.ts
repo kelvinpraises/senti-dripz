@@ -20,19 +20,19 @@ const config: Config = {
         "animate-pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
       keyframes: {
-        aurora: {
-          from: {
-            backgroundPosition: "50% 50%, 50% 50%",
-          },
-          to: {
-            backgroundPosition: "350% 50%, 350% 50%",
-          },
-        },
-        scroll: {
-          to: {
-            transform: "translate(calc(-50% - 0.5rem))",
-          },
-        },
+        // aurora: {
+        //   from: {
+        //     backgroundPosition: "50% 50%, 50% 50%",
+        //   },
+        //   to: {
+        //     backgroundPosition: "350% 50%, 350% 50%",
+        //   },
+        // },
+        // scroll: {
+        //   to: {
+        //     transform: "translate(calc(-50% - 0.5rem))",
+        //   },
+        // },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -56,7 +56,7 @@ export default config;
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
   );
 
   addBase({

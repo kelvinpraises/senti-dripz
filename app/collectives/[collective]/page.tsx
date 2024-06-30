@@ -1,9 +1,8 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import GlassContainer from "@/components/molecules/glass-container";
-import Faucet from "@/components/organisms/faucet";
+import CollectiveDetails from "@/components/organisms/collective-details";
 import Fundings from "@/components/organisms/fundings";
 import {
   Tabs,
@@ -28,39 +27,38 @@ interface EcosystemData {
 const CollectiveHome = () => {
   const { collective: collectiveId } = useParams();
 
-  const [data, setData] = useState<Partial<EcosystemData>>();
-  const [activeScreen, setActiveScreen] = useState("ecoFunds");
-
-  useEffect(() => {
-    // (async () => {
-    //   const ecosystem: EcosystemWithId = await getEcosystemById(
-    //     collectiveId as string,
-    //   );
-    //   const newEcosystem = {
-    //     title: ecosystem.name,
-    //     description: ecosystem.description,
-    //   };
-    //   setData(newEcosystem);
-    // })();
-  }, []);
-
   return (
     <GlassContainer>
       <p className="pt-4 px-4 font-semibold text-xl">
         Collective {collectiveId}
       </p>
-      <Tabs defaultValue="home">
-        <TabsList className="grid w-full grid-cols-2 gap-2">
-          <TabsTrigger value="home">Home</TabsTrigger>
-          <TabsTrigger value="about">About</TabsTrigger>
-        </TabsList>
-        <TabsContent className="rounded-2xl bg-[#F8F8F7] p-4" value="home">
-          <Fundings />
-        </TabsContent>
-        <TabsContent className="rounded-2xl bg-[#F8F8F7] p-4" value="about">
-          <Faucet />
-        </TabsContent>
-      </Tabs>
+      <p className="px-4 pb-2 text-sm text-gray-700">
+        Discover or create decentralised funding flows
+      </p>
+      <div className="rounded-2xl bg-[#F8F8F7] p-4">
+        <Tabs className="flex flex-col gap-4" defaultValue="home">
+          <TabsList className="grid w-full grid-cols-2 backdrop-blur-3xl bg-black/40 text-white">
+            <TabsTrigger
+              className="data-[state=active]:bg-black/30"
+              value="home"
+            >
+              Home
+            </TabsTrigger>
+            <TabsTrigger
+              className="data-[state=active]:bg-black/30"
+              value="info"
+            >
+              Info
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="home">
+            <Fundings />
+          </TabsContent>
+          <TabsContent value="info">
+            <CollectiveDetails />
+          </TabsContent>
+        </Tabs>
+      </div>
     </GlassContainer>
   );
 };

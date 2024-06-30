@@ -185,7 +185,7 @@ const CollectorBody: React.FC<CollectorBodyProps> = ({
         <Button
           onClick={handleCheckout}
           disabled={isSubmitting || getTotalItems() === 0}
-          className="bg-blue-500 text-white rounded-lg py-3 px-4 hover:bg-blue-600"
+          className="bg-[#F26DB7]/95 text-white rounded-lg py-3 px-4 hover:bg-[#F26DB7]"
         >
           Checkout
         </Button>

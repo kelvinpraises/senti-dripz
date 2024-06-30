@@ -8,6 +8,8 @@ export const demoRecipients: Recipient[] = [
     id: "1",
     name: "Local Community Center",
     type: "organization",
+    profileLogoUrl:
+      "https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80",
     fundingFlows: [
       {
         id: "flow1",
@@ -34,8 +36,6 @@ export const demoCollectors: Collector[] = [
     emojiCodePoint: "1f34e",
     name: "Fresh Produce Market",
     creator: "0x1234...5678",
-    created_at: Date.now() - 7 * 24 * 60 * 60 * 1000, // 7 days ago
-    updated_at: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2 days ago
     acceptedToken: {
       address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       name: "USD Coin",

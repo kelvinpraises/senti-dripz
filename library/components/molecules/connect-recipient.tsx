@@ -15,20 +15,7 @@ import {
 import { Label } from "@/components/atoms/label";
 import { RadioGroup, RadioGroupItem } from "@/components/atoms/radio-group";
 import { ScrollArea, ScrollBar } from "../atoms/scroll-area";
-
-interface FundingFlow {
-  id: string;
-  name: string;
-  amount: number;
-  imageUrl: string;
-}
-
-interface Recipient {
-  id: string;
-  name: string;
-  type: "organization" | "individual";
-  fundingFlows: FundingFlow[];
-}
+import { Recipient } from "@/types";
 
 interface ConnectRecipientProps {
   selectedRecipient: Recipient | null;
