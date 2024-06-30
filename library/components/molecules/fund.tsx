@@ -5,108 +5,136 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Alert, AlertDescription } from "@/components/atoms/alert";
-import { Button } from "../atoms/button";
-
-export type Fund = {
-  id: string;
-  name: string;
-  creator: string;
-  status: string;
-  created_at: number;
-  updated_at: number;
-  rate: number;
-};
+import { Button } from "@/components/atoms/button";
+import { Fund, FundRecipient } from "@/types";
 
 const FundHead = ({ item }: { item: Fund }) => {
-  const { status, name } = item;
+  const { status, name, emoji, rate, token } = item;
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex gap-4 items-center">
-        <div className="relative w-fit">
-          <img src={`/tokens/usdc.svg`} className="w-8 h-8" />
+    <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">{emoji}</span>
+        <div className="flex flex-col">
+          <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
+          <span className="text-sm text-gray-600">
+            {token.symbol} @ {rate.toFixed(4)}
+          </span>
         </div>
-        <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
       </div>
-      <div className="flex gap-2 bg-slate-200 p-1 rounded-lg text-gray-700">
-        <p className="text-sm w-fit">{status}</p>
-        <p className="text-sm w-fit">@ 3,000,000,000</p>
-        <p className="text-sm w-fit">@ {item.rate.toFixed(4)}</p>
-      </div>
+      <span
+        className={`px-2 py-1 rounded-full text-sm ${
+          status === "Open"
+            ? "bg-green-100 text-green-800"
+            : "bg-red-100 text-red-800"
+        }`}
+      >
+        {status}
+      </span>
     </div>
   );
 };
 
 const FundBody = ({ item }: { item: Fund }) => {
-  const { rate, creator, id } = item;
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [canComplete, setCanComplete] = useState(true);
-  const [warning, setWarning] = useState("");
-  const [info, setInfo] = useState("Happy");
-
+  const [recipients, setRecipients] = useState<FundRecipient[]>([]);
+  const [votingEnded, setVotingEnded] = useState(false);
   const { primaryWallet } = useDynamicContext();
 
-  const handleButtonClick = async () => {
+  const handleAddDemoRecipients = async () => {
     setIsSubmitting(true);
-
-    if (!primaryWallet) {
-      toast.error("Please connect your wallet first.");
-      setIsSubmitting(false);
-      return;
-    }
-
-    const connector = primaryWallet?.connector;
-
-    if (!connector) {
-      toast.error("Wallet connector not found.");
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
-      await connector.connect();
-      const signer = await connector.getSigner();
-
-      if (!signer) {
-        throw new Error("Failed to get signer");
-      }
-
-      const contractAddress =
-        process.env.NEXT_PUBLIC_STARKLENS_SWAPERC20_CONTRACT;
-      if (!contractAddress) {
-        throw new Error("Contract address not found in environment variables");
-      }
-
-      toast.success("Transaction sent. Waiting for confirmation...");
-
-      toast.success("Swap completed successfully!");
+      // Simulating API call to add demo recipients
+      const demoRecipients: FundRecipient[] = [
+        { address: "0x123...", name: "Recipient 1", status: "None" },
+        { address: "0x456...", name: "Recipient 2", status: "None" },
+      ];
+      setRecipients(demoRecipients);
+      toast.success("Demo recipients added successfully!");
     } catch (error) {
-      console.error("Error interacting with swap:", error);
-      toast.error(
-        `Failed to ${"complete"} swap: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`,
-      );
+      toast.error("Failed to add demo recipients");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleStatusChange = (
+    address: string,
+    newStatus: FundRecipient["status"],
+  ) => {
+    setRecipients((prevRecipients) =>
+      prevRecipients.map((recipient) =>
+        recipient.address === address
+          ? { ...recipient, status: newStatus }
+          : recipient,
+      ),
+    );
+  };
+
+  const handleVote = (accept: boolean) => {
+    toast.success(`Voted to ${accept ? "accept" : "reject"} funding`);
+    // Implement voting logic here
+  };
+
+  if (votingEnded) {
+    return (
+      <div className="flex flex-col gap-4">
+        <Alert>
+          <AlertDescription>
+            Voting time has ended. Please cast your vote.
+          </AlertDescription>
+        </Alert>
+        <div className="flex gap-4">
+          <Button onClick={() => handleVote(true)} className="flex-1">
+            Accept Funding
+          </Button>
+          <Button onClick={() => handleVote(false)} className="flex-1">
+            Reject Funding
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (recipients.length === 0) {
+    return (
+      <Button
+        onClick={handleAddDemoRecipients}
+        disabled={isSubmitting}
+        className="w-full bg-zinc-800 text-white hover:bg-zinc-700 rounded-lg py-3"
+      >
+        {isSubmitting ? "Adding..." : "Add Demo Recipients"}
+      </Button>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      {warning && (
-        <Alert variant="destructive">
-          <AlertDescription>{warning}</AlertDescription>
-        </Alert>
-      )}
-      {info && (
-        <Alert>
-          <AlertDescription>{info}</AlertDescription>
-        </Alert>
-      )}
-      <Button className="w-full bg-zinc-800 text-white hover:bg-zinc-700 rounded-lg py-3">
-        Add Demo Recipients
-      </Button>
+      {recipients.map((recipient) => (
+        <div
+          key={recipient.address}
+          className="flex items-center justify-between"
+        >
+          <span>{recipient.name}</span>
+          <select
+            value={recipient.status}
+            onChange={(e) =>
+              handleStatusChange(
+                recipient.address,
+                e.target.value as FundRecipient["status"],
+              )
+            }
+            className="border rounded p-1"
+          >
+            <option value="None">None</option>
+            <option value="Pending">Pending</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Appealed">Appealed</option>
+            <option value="InReview">In Review</option>
+          </select>
+        </div>
+      ))}
     </div>
   );
 };
