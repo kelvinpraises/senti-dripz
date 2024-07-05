@@ -144,11 +144,11 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
     /// @notice Registers a recipient
     /// @dev Overrides BaseStrategy's _registerRecipient function
     /// @param _data Encoded recipient data
-    /// @param _sender Address of the sender
+    //  @param _sender Address of the sender
     /// @return recipientId The address of the registered recipient
     function _registerRecipient(
         bytes memory _data,
-        address _sender
+        address
     )
         internal
         override
@@ -186,9 +186,7 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
     function _allocate(
         bytes memory _data,
         address _sender
-    ) internal override onlyActiveAllocation {
-        require(_isValidAllocator(_sender), "Not a valid allocator");
-
+    ) internal override onlyActiveAllocation onlyPoolManager(_sender) {
         (address[] memory recipientAddresses, uint256[] memory amounts) = abi
             .decode(_data, (address[], uint256[]));
         require(
@@ -242,9 +240,13 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
         address[] memory _recipientIds,
         bytes memory _data,
         address _sender
-    ) internal override onlyAfterAllocation nonReentrant {
-        require(_isValidAllocator(_sender), "Not a valid allocator");
-
+    )
+        internal
+        override
+        onlyAfterAllocation
+        nonReentrant
+        onlyPoolManager(_sender)
+    {
         // Calculate duration
         uint256 duration = abi.decode(_data, (uint256));
 
@@ -297,16 +299,6 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
         address _recipientId
     ) internal view override returns (Status) {
         return recipients[_recipientId].status;
-    }
-
-    /// @notice Checks if the given address is a valid allocator
-    /// @dev Overrides BaseStrategy's _isValidAllocator function
-    /// @param _allocator Address to check
-    /// @return bool indicating if the address is a valid allocator
-    function _isValidAllocator(
-        address _allocator
-    ) internal view override returns (bool) {
-        return _allocator == owner();
     }
 
     /// @notice Updates the status of a recipient
