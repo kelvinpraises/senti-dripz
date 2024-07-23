@@ -1,0 +1,95 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"handleDistribution(uint256,address,address[],uint256[],uint256,address[])": "23358940"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "poolId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "contract IERC20",
+					"name": "token",
+					"type": "address"
+				},
+				{
+					"internalType": "address[]",
+					"name": "recipients",
+					"type": "address[]"
+				},
+				{
+					"internalType": "uint256[]",
+					"name": "allocations",
+					"type": "uint256[]"
+				},
+				{
+					"internalType": "uint256",
+					"name": "duration",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address[]",
+					"name": "whitelistedCollectors",
+					"type": "address[]"
+				}
+			],
+			"name": "handleDistribution",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]
+}

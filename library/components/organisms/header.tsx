@@ -51,8 +51,9 @@ const Header = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      {/* <img src="/logo.svg" alt="" /> */}
-      <p className="text-4xl w-full">🔭</p>
+      <div className="w-full">
+        <img src="/senti-dripz-logo.png" alt="" className="w-8 opacity-85" />
+      </div>
       <NavGroup className="flex w-full justify-center" navs={navs} />
       <div className="flex justify-end w-full">
         <DynamicWidget />

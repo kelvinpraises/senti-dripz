@@ -64,14 +64,6 @@ const sampleRecipients: Recipient[] = [
       },
     ],
   },
-  {
-    id: "2",
-    name: "Local Community Center",
-    type: "organization",
-    profileLogoUrl:
-      "https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80",
-    fundingFlows: [],
-  },
   // Add more sample recipients here if needed
 ];
 

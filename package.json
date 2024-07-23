@@ -5,7 +5,8 @@
   "scripts": {
     "predev": "chmod +x kysely_generate.sh",
     "dev": "chmod +x kysely_generate.sh && ./kysely_generate.sh && next dev",
-    "build": "chmod +x kysely_generate.sh && ./kysely_generate.sh -y && next build",
+    "build2": "chmod +x kysely_generate.sh && ./kysely_generate.sh -y && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "find-circular-deps": "madge . -c",
@@ -67,3 +68,4 @@
     "typescript": "^5"
   }
 }
+

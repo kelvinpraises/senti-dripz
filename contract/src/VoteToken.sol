@@ -7,7 +7,7 @@ import {ERC20Votes} from "openzeppelin-contracts/contracts/token/ERC20/extension
 import {Nonces} from "openzeppelin-contracts/contracts/utils/Nonces.sol";
 
 contract TestToken is ERC20, ERC20Permit, ERC20Votes {
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) ERC20Permit(name) {}
+    constructor() ERC20("Test Token", "TT") ERC20Permit("Test Token") {}
 
     // The functions below are overrides required by Solidity.
 

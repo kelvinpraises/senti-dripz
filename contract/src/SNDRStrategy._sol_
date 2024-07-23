@@ -307,7 +307,7 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
     function updateRecipientStatus(
         address _recipientAddress,
         Status _newStatus
-    ) external onlyOwner {
+    ) external onlyPoolManager(_sender) {
         require(
             recipients[_recipientAddress].recipientAddress != address(0),
             "Recipient not registered"
@@ -320,7 +320,7 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
     /// @param _newWhitelistedCollectors Address of the collector
     function updateWhitelistedCollectors(
         address[] memory _newWhitelistedCollectors
-    ) external onlyOwner {
+    ) external onlyPoolManager(_sender) {
         whitelistedCollectors = _newWhitelistedCollectors;
         emit WhitelistedCollectorsUpdated(_newWhitelistedCollectors);
     }
@@ -335,7 +335,7 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
         uint64 _registrationEndTime,
         uint64 _allocationStartTime,
         uint64 _allocationEndTime
-    ) public onlyOwner {
+    ) public onlyPoolManager(_sender) {
         _updatePoolTimestamps(
             _registrationStartTime,
             _registrationEndTime,
@@ -361,11 +361,17 @@ contract SNDRStrategy is BaseStrategy, Ownable, ReentrancyGuard {
 
     /// @notice Withdraws any remaining tokens from the contract
     /// @dev Can only be called by the owner
-    function withdrawRemainingTokens() external onlyOwner {
+    function withdrawRemainingTokens() external onlyPoolManager(_sender) {
         uint256 remainingBalance = token.balanceOf(address(this));
         if (remainingBalance > 0) {
             token.safeTransfer(owner(), remainingBalance);
         }
+    }
+
+    /// @notice Checks if address is eligible allocator.
+    /// @return Always returns true for this strategy
+    function _isValidAllocator(address) internal pure override returns (bool) {
+        return true;
     }
 
     /// @notice Modifier to ensure the function is called during the active registration period

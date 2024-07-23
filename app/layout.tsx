@@ -4,9 +4,9 @@ import LayoutWrapper from "@/components/template/layout-wrapper";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://starklens.vercel.app/"),
-  title: "Starklens",
-  icons: "/favicon.ico",
+  metadataBase: new URL("https://senti-dripz.vercel.app/"),
+  title: "Senti Dripz",
+  icons: "/senti-dripz-logo-box.png",
   description: "",
   openGraph: {
     images: "", //TODO:

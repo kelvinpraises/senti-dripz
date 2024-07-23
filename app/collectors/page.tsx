@@ -3,7 +3,7 @@ import CollectorMetrics from "@/components/organisms/collector-metrics";
 import Collectors from "@/components/organisms/collectors";
 import { Collector, Recipient } from "@/types";
 
-export const demoRecipients: Recipient[] = [
+const demoRecipients: Recipient[] = [
   {
     id: "1",
     name: "Local Community Center",
@@ -30,7 +30,7 @@ export const demoRecipients: Recipient[] = [
   // ... (other recipients)
 ];
 
-export const demoCollectors: Collector[] = [
+const demoCollectors: Collector[] = [
   {
     id: "happy",
     emojiCodePoint: "1f34e",
@@ -51,7 +51,7 @@ export const demoCollectors: Collector[] = [
   // ... (other collectors)
 ];
 
-export const metrics = [
+const metrics = [
   { title: "Intent volume", value: "$18,746,443.74" },
   { title: "Intents Transmitted", value: "5,690" },
   { title: "Active Swaps", value: "560" },
@@ -65,7 +65,7 @@ const CollectorsHome = () => {
         Sample flow collectors (uses sdk under the hood)
       </p>
       <div className="flex flex-col rounded-2xl bg-[#F8F8F7] p-4 gap-4">
-        <CollectorMetrics metrics={metrics} />
+        {/* <CollectorMetrics metrics={metrics} /> */}
         <Collectors collectors={demoCollectors} recipients={demoRecipients} />
       </div>
     </GlassContainer>

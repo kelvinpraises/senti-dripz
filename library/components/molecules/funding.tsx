@@ -64,7 +64,7 @@ const FundingBody = ({ item }: { item: Funding }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [recipients, setRecipients] = useState<FundRecipient[]>([]);
   const [originalRecipients, setOriginalRecipients] = useState<FundRecipient[]>(
-    [],
+    []
   );
   const [votingEnded, setVotingEnded] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -77,9 +77,6 @@ const FundingBody = ({ item }: { item: Funding }) => {
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1000));
         // Assuming the API returns the recipients for this specific fund
-        const fetchedRecipients = item.recipients || [];
-        setRecipients(fetchedRecipients);
-        setOriginalRecipients(fetchedRecipients);
       } catch (error) {
         console.error("Failed to fetch recipients:", error);
         toast.error("Failed to load recipients. Please try again.");
@@ -113,14 +110,14 @@ const FundingBody = ({ item }: { item: Funding }) => {
 
   const handleStatusChange = (
     address: string,
-    newStatus: FundRecipient["status"],
+    newStatus: FundRecipient["status"]
   ) => {
     setRecipients((prevRecipients) =>
       prevRecipients.map((recipient) =>
         recipient.address === address
           ? { ...recipient, status: newStatus }
-          : recipient,
-      ),
+          : recipient
+      )
     );
   };
 
@@ -210,7 +207,7 @@ const FundingBody = ({ item }: { item: Funding }) => {
                   onValueChange={(value) =>
                     handleStatusChange(
                       recipient.address,
-                      value as FundRecipient["status"],
+                      value as FundRecipient["status"]
                     )
                   }
                 >

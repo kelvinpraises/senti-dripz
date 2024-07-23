@@ -1,0 +1,245 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "poolId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "contract IERC20",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"internalType": "address[]",
+						"name": "recipients",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "allocations",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "duration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address[]",
+						"name": "whitelistedCollectors",
+						"type": "address[]"
+					}
+				],
+				"name": "handleDistribution",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/SNDRStrategy.sol": "ISNDRCore"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": [
+			":@openzeppelin/contracts-upgradeable/=lib/allo-v2/lib/openzeppelin-contracts-upgradeable/contracts/",
+			":@openzeppelin/contracts/=lib/allo-v2/lib/openzeppelin-contracts/contracts/",
+			":@prb/math/=lib/allo-v2/lib/v2-core/lib/prb-math/",
+			":@prb/test/=lib/allo-v2/lib/v2-core/lib/prb-test/src/",
+			":@sablier/v2-core/=lib/allo-v2/lib/v2-core/",
+			":@superfluid-finance/=lib/allo-v2/lib/superfluid-protocol-monorepo/packages/",
+			":ERC1155/=lib/allo-v2/lib/hats-protocol/lib/ERC1155/",
+			":allo-v2/=lib/allo-v2/contracts/",
+			":ds-test/=lib/allo-v2/lib/forge-std/lib/ds-test/src/",
+			":ds-test/=lib/forge-std/lib/ds-test/src/",
+			":eas-contracts/=lib/allo-v2/lib/eas-contracts/contracts/",
+			":eas-proxy/=lib/allo-v2/lib/eas-proxy/contracts/",
+			":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+			":forge-gas-snapshot/=lib/allo-v2/lib/permit2/lib/forge-gas-snapshot/src/",
+			":forge-std/=lib/forge-std/src/",
+			":hats-protocol/=lib/allo-v2/lib/hats-protocol/",
+			":hedgey-vesting/=lib/allo-v2/lib/hedgey-vesting/contracts/",
+			":lib/ERC1155/=lib/allo-v2/lib/hats-protocol/lib/ERC1155/",
+			":openzeppelin-contracts-upgradeable/=lib/allo-v2/lib/openzeppelin-contracts-upgradeable/",
+			":openzeppelin-contracts/=lib/openzeppelin-contracts/",
+			":openzeppelin/=lib/allo-v2/lib/openzeppelin-contracts-upgradeable/contracts/",
+			":permit2/=lib/allo-v2/lib/permit2/",
+			":prb-math/=lib/allo-v2/lib/v2-core/lib/prb-math/src/",
+			":prb-test/=lib/allo-v2/lib/v2-core/lib/prb-test/src/",
+			":solady/=lib/allo-v2/lib/solady/src/",
+			":solarray/=lib/allo-v2/lib/v2-core/lib/solarray/src/",
+			":solbase/=lib/allo-v2/lib/hats-protocol/lib/solbase/src/",
+			":solmate/=lib/allo-v2/lib/permit2/lib/solmate/",
+			":superfluid-protocol-monorepo/=lib/allo-v2/lib/superfluid-protocol-monorepo/packages/solidity-semantic-money/src/",
+			":utils/=lib/allo-v2/lib/hats-protocol/lib/utils/",
+			":v2-core/=lib/allo-v2/lib/v2-core/"
+		],
+		"viaIR": true
+	},
+	"sources": {
+		"lib/allo-v2/contracts/core/interfaces/IAllo.sol": {
+			"keccak256": "0x7bc06a262ffe042092c58949452b043546788a66616bec2a40f55975fd537c1d",
+			"license": "AGPL-3.0-only",
+			"urls": [
+				"bzz-raw://7420316020e25430b295e876562932810f274c7c651cbda8c09989a3ad9837d2",
+				"dweb:/ipfs/QmfNx7MHNK9t4ReeA71CBUXHEhYNj6suDYHY7pjqUDc1T3"
+			]
+		},
+		"lib/allo-v2/contracts/core/interfaces/IRegistry.sol": {
+			"keccak256": "0x3a2edcea094551fc86612932d42bd6b4682d20fb7b46cfdbeee39ba85367749f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c922d497fdfdd2f43a009959429c761d1fb61501ca5d91abf9ae873ac58d437e",
+				"dweb:/ipfs/QmaiUx4uVajytmFJQJdGh2mJK2RKn4xNVrARurJdF3iwzA"
+			]
+		},
+		"lib/allo-v2/contracts/core/interfaces/IStrategy.sol": {
+			"keccak256": "0xebd143a6729d7fe650ffd83a2dc1941e19ce9285526e5cb4d6c32adba3f3cf23",
+			"license": "AGPL-3.0-only",
+			"urls": [
+				"bzz-raw://994ed7ab48860e92ffd369e6741149760a725c5ddf4fc55e33c31f408bd25487",
+				"dweb:/ipfs/QmV6bzxJQo5T13Kynv7mqGJQSbNyZ4ZJfTEjWUymxmpfpH"
+			]
+		},
+		"lib/allo-v2/contracts/core/libraries/Errors.sol": {
+			"keccak256": "0x67e3c1109948a92cb3a01e8c2325c5f1b748ecbd4c9cd5bee34e81fa737f77ea",
+			"license": "AGPL-3.0-only",
+			"urls": [
+				"bzz-raw://9603d3f1c4bb4b44a55663e71688a9d10786038e5dfa5039aa354572af1a53c3",
+				"dweb:/ipfs/QmWNxsPH9YaJJkFiiU6oJ642i5kHxPzpRYfR5H8zSH4KaP"
+			]
+		},
+		"lib/allo-v2/contracts/core/libraries/Metadata.sol": {
+			"keccak256": "0x452a95a8762fafd51d36295138f7e14189cbaaca7274d6fd34a59ad57a442d44",
+			"license": "AGPL-3.0-only",
+			"urls": [
+				"bzz-raw://2cc5507da2550ab9bfa0fbb263e703f9e70b831190bb7b2bcdbb231cab49795c",
+				"dweb:/ipfs/QmQXCD8v2HppXAX17aH49JvNyyfDYzGMrg63QNabUEXPpn"
+			]
+		},
+		"lib/allo-v2/contracts/core/libraries/Native.sol": {
+			"keccak256": "0x23dacace24a8c570a659dcc7e52fca2d39cc7577c6cfa674820cafaf194b29d5",
+			"license": "AGPL-3.0-only",
+			"urls": [
+				"bzz-raw://0727880a600b1803f02b58ad002938462dc61aacf841f5e1ee38f296fdd67e8a",
+				"dweb:/ipfs/QmdrEiJxFFnUfn2QUNxRAUMS1qwCnRtGeWPChaGzhAkRnv"
+			]
+		},
+		"lib/allo-v2/contracts/core/libraries/Transfer.sol": {
+			"keccak256": "0x99f4e3bfd5cea354c2ef9e9774d7bdb2310faec5e7a21a619d87377b40eba135",
+			"license": "AGPL-3.0-only",
+			"urls": [
+				"bzz-raw://f84412d189fa7c6ea3656409af156fad084b1a541850798da3e76549e3124588",
+				"dweb:/ipfs/QmT3roFjt41PX7zgjT7KdThFU37Fh7F6vEyKooSzpfTBvq"
+			]
+		},
+		"lib/allo-v2/contracts/strategies/BaseStrategy.sol": {
+			"keccak256": "0x3f1382dc6c35d50545e327e7ed6016f2bd752357d446bd698014073f0b812873",
+			"license": "AGPL-3.0-only",
+			"urls": [
+				"bzz-raw://99500abcd617fa43f6dde49e2c7802821ceaf54a65a8055cbbf2695ecd107974",
+				"dweb:/ipfs/QmUktZkWuu3GCMEijY1fqt7NMy7BzpTvEtcmpB1fuoa7zt"
+			]
+		},
+		"lib/allo-v2/lib/openzeppelin-contracts/contracts/access/Ownable.sol": {
+			"keccak256": "0xba43b97fba0d32eb4254f6a5a297b39a19a247082a02d6e69349e071e2946218",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fc980984badf3984b6303b377711220e067722bbd6a135b24669ff5069ef9f32",
+				"dweb:/ipfs/QmPHXMSXj99XjSVM21YsY6aNtLLjLVXDbyN76J5HQYvvrz"
+			]
+		},
+		"lib/allo-v2/lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol": {
+			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34",
+				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
+			]
+		},
+		"lib/allo-v2/lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0x287b55befed2961a7eabd7d7b1b2839cbca8a5b80ef8dcbb25ed3d4c2002c305",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bd39944e8fc06be6dbe2dd1d8449b5336e23c6a7ba3e8e9ae5ae0f37f35283f5",
+				"dweb:/ipfs/QmPV3FGYjVwvKSgAXKUN3r9T9GwniZz83CxBpM7vyj2G53"
+			]
+		},
+		"lib/allo-v2/lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Permit.sol": {
+			"keccak256": "0xec63854014a5b4f2b3290ab9103a21bdf902a508d0f41a8573fea49e98bf571a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bc5b5dc12fbc4002f282eaa7a5f06d8310ed62c1c77c5770f6283e058454c39a",
+				"dweb:/ipfs/Qme9rE2wS3yBuyJq9GgbmzbsBQsW2M2sVFqYYLw7bosGrv"
+			]
+		},
+		"lib/allo-v2/lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol": {
+			"keccak256": "0xabefac93435967b4d36a4fabcbdbb918d1f0b7ae3c3d85bc30923b326c927ed1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9d213d3befca47da33f6db0310826bcdb148299805c10d77175ecfe1d06a9a68",
+				"dweb:/ipfs/QmRgCn6SP1hbBkExUADFuDo8xkT4UU47yjNF5FhCeRbQmS"
+			]
+		},
+		"lib/allo-v2/lib/openzeppelin-contracts/contracts/utils/Address.sol": {
+			"keccak256": "0x006dd67219697fe68d7fbfdea512e7c4cb64a43565ed86171d67e844982da6fa",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2455248c8ddd9cc6a7af76a13973cddf222072427e7b0e2a7d1aff345145e931",
+				"dweb:/ipfs/QmfYjnjRbWqYpuxurqveE6HtzsY1Xx323J428AKQgtBJZm"
+			]
+		},
+		"lib/allo-v2/lib/openzeppelin-contracts/contracts/utils/Context.sol": {
+			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92",
+				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
+			]
+		},
+		"lib/allo-v2/lib/solady/src/utils/SafeTransferLib.sol": {
+			"keccak256": "0x06d3261d13cf5a08f9bcda05e17be0a6a0380193116298fdf8eabf9bf80d3624",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://96965a8a2b1bd2d6cff4a8f78bcb33b0de8848834f8e4be28c03609ae08e9298",
+				"dweb:/ipfs/QmSoNDxaEozMZgNdVEygfEvnk26Tu4UeFeapvtMsoUFftt"
+			]
+		},
+		"src/SNDRStrategy.sol": {
+			"keccak256": "0x79d0341cb7bab9713e47e4a4036435b19ab471a4924b7265e40f804a1f113470",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d079cb89bf9bb1a4d6a11b03c4f9c5b6e46a4b8b42c8dff1a0ad18f5496ade77",
+				"dweb:/ipfs/QmWqeViEkpFRx4TqZ83RavYHrivyhnGyoNUW2j9FiNVHGV"
+			]
+		}
+	},
+	"version": 1
+}
